@@ -9,15 +9,9 @@ namespace AdminModule\InviteModule;
  */
 class BasePresenter extends \AdminModule\BasePresenter {
 	
-	protected $repository;
-	
-	protected $elementRepository;
 	
 	protected function startup() {
 		parent::startup();
-		
-		$this->repository = $this->em->getRepository('WebCMS\FormModule\Doctrine\Entry');
-		$this->elementRepository = $this->em->getRepository('WebCMS\FormModule\Doctrine\Element');
 	}
 
 	protected function beforeRender() {
