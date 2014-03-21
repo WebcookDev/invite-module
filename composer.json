@@ -1,0 +1,27 @@
+{
+    "name": "webcms2/invite-module",
+    "type": "library",
+    "description": "WebCMS2 invite module.",
+    "keywords": ["webcms2","module"],
+    "homepage": "http://www.webcook.cz/WebCMS2",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jakub Šanda",
+            "email": "sanda@webcook.cz",
+            "homepage": "http://www.webcook.cz",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+		"webcms2/webcms2": "~0.4"
+    },
+    "autoload": {
+        "classmap": ["/"]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
