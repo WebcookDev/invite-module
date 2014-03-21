@@ -1,11 +1,11 @@
 <?php
 
-namespace AdminModule\FormModule;
+namespace AdminModule\InviteModule;
 
 /**
  * Description of BasePresenter
  *
- * @author Tomáš Voslař <tomas.voslar at webcook.cz>
+ * @author Jakub Šanda <sanda at webcook.cz>
  */
 class BasePresenter extends \AdminModule\BasePresenter {
 	
