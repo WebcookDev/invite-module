@@ -51,6 +51,16 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 			$form->addHidden('redirect')->setDefaultValue(false);
 		}
 		
+		$form->addText('emailFrom', 'Váš email')
+				->setRequired()
+				->addRule(UI\Form::EMAIL);
+		$form->addText('emailTo', 'Email příjemce')
+				->setRequired()
+				->addRule(UI\Form::EMAIL);
+		
+		$form['emailFrom']->getControlPrototype()->addClass('form-control');
+		$form['emailTo']->getControlPrototype()->addClass('form-control');
+		
 		$form->addSubmit('send', 'Send')->setAttribute('class', 'btn btn-primary btn-lg');
 		$form->onSuccess[] = callback($this, 'formSubmitted');
 		
@@ -63,50 +73,24 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 
 		if (\WebCMS\Helpers\SystemHelper::rpHash($_POST['real']) == $_POST['realHash']) {
 			
-			/*$data = array();
-
 			$redirect = $values->redirect;
 			unset($values->redirect);
-
-			$emailContent = '';
-			foreach($values as $key => $val){
-				$element = $this->elementRepository->findOneByName($key);
-
-				if($element->getType() === 'checkbox'){
-					$value = $val ? $this->translation['Yes'] : $this->translation['No'];
-				}else{
-					$value = $val;
-				}
-
-				$data[$element->getLabel()] = $value;
-
-				$emailContent .= $element->getLabel() . ': ' . $value . '<br />';
-			}
-
-			$entry = new \WebCMS\FormModule\Doctrine\Entry;
-			$entry->setDate(new \DateTime);
-			$entry->setPage($this->actualPage);
-			$entry->setData($data);
-
-			$this->em->persist($entry);
-			$this->em->flush();
-
-			// info email
-			$infoMail = $this->settings->get('Info email', 'basic', 'text')->getValue();
-			$parsed = explode('@', $infoMail);
-
-			$mailBody = $this->settings->get('Info email', 'formModule' . $this->actualPage->getId(), 'textarea')->getValue();
-			$mailBody = \WebCMS\Helpers\SystemHelper::replaceStatic($mailBody, array('[FORM_CONTENT]'), array($emailContent));
-
+			
+			$template = $this->createTemplate();
+			$template->values = $values;
+			$template->setFile('../app/templates/invite-module/Invite/email.latte');
+			
+			$data = array();
+			
 			$mail = new \Nette\Mail\Message;
-			$mail->addTo($infoMail);
+			$mail->addTo($values->emailTo);
 
-			if($this->getHttpRequest()->url->host !== 'localhost') $mail->setFrom('no-reply@' . $this->getHttpRequest()->url->host);
-			else $mail->setFrom('no-reply@test.cz'); // TODO move to settings
+			if($this->getHttpRequest()->url->host !== 'localhost') $mail->setFrom($values->emailTo);
+			else $mail->setFrom('no-reply@test.cz');
 
-			$mail->setSubject($this->settings->get('Info email subject', 'formModule' . $this->actualPage->getId(), 'text')->getValue());
-			$mail->setHtmlBody($mailBody);
-			$mail->send();*/
+			$mail->setSubject('Pozvánka na pivofest 2014');
+			$mail->setHtmlBody($template);
+			$mail->send();
 
 			$this->flashMessage('Data has been sent.', 'success');
 
@@ -143,10 +127,10 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 		$this->template->id = $id;
 	}
 
-	public function formBox($context, $fromPage){
+	public function inviteBox($context, $fromPage){
 		
 		$template = $context->createTemplate();
-		$template->form = $this->createComponentForm('form',$context, $fromPage);
+		$template->form = $this->createComponentForm('form', $context, $fromPage);
 		$template->setFile('../app/templates/invite-module/Invite/boxes/form.latte');
 	
 		return $template;
