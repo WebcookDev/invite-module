@@ -85,7 +85,7 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 			$mail = new \Nette\Mail\Message;
 			$mail->addTo($values->emailTo);
 
-			if($this->getHttpRequest()->url->host !== 'localhost') $mail->setFrom($values->emailTo);
+			if($this->getHttpRequest()->url->host !== 'localhost') $mail->setFrom($this->settings->get('Info email', 'basic')->getValue());
 			else $mail->setFrom('no-reply@test.cz');
 
 			$mail->setSubject('Pozvánka na pivofest 2014');
