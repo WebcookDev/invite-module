@@ -57,6 +57,8 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 		$form->addText('emailTo', 'Email příjemce')
 				->setRequired()
 				->addRule(UI\Form::EMAIL);
+				
+		$form->addHidden('url')->setDefaultValue($context->getHttpRequest()->getUrl()->path);
 		
 		$form['emailFrom']->getControlPrototype()->addClass('form-control');
 		$form['emailTo']->getControlPrototype()->addClass('form-control');
