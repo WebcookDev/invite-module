@@ -46,19 +46,21 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 			$form->getElementPrototype()->class = 'form-horizontal contact-agent-form';
 			
 			$form->addHidden('redirect')->setDefaultValue(true);
+			$form->addHidden('url')->setDefaultValue("http://".$_SERVER['HTTP_HOST'].$context->getHttpRequest()->getUrl()->path);
 		}else{
 			$form = $this->createForm('form-submit', 'default', $context);
 			$form->addHidden('redirect')->setDefaultValue(false);
+			$form->addHidden('url')->setDefaultValue("http://".$_SERVER['HTTP_HOST'].$this->getHttpRequest()->getUrl()->path);
 		}
 		
+
 		$form->addText('emailFrom', 'Váš email')
 				->setRequired()
 				->addRule(UI\Form::EMAIL);
 		$form->addText('emailTo', 'Email příjemce')
 				->setRequired()
 				->addRule(UI\Form::EMAIL);
-				
-		$form->addHidden('url')->setDefaultValue($context->getHttpRequest()->getUrl()->path);
+		
 		
 		$form['emailFrom']->getControlPrototype()->addClass('form-control');
 		$form['emailTo']->getControlPrototype()->addClass('form-control');
@@ -92,7 +94,7 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 
 			$mail->setSubject('Pozvánka na pivofest 2014');
 			$mail->setHtmlBody($template);
-			$mail->send();
+			//$mail->send();
 
 			$this->flashMessage('Data has been sent.', 'success');
 
@@ -130,7 +132,7 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 	}
 
 	public function inviteBox($context, $fromPage){
-		
+
 		$template = $context->createTemplate();
 		$template->form = $this->createComponentForm('form', $context, $fromPage);
 		$template->setFile('../app/templates/invite-module/Invite/boxes/form.latte');
