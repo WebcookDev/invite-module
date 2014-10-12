@@ -46,11 +46,11 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 			$form->getElementPrototype()->class = 'form-horizontal contact-agent-form';
 			
 			$form->addHidden('redirect')->setDefaultValue(true);
-			$form->addHidden('url')->setDefaultValue("http://".$_SERVER['HTTP_HOST'].$context->getHttpRequest()->getUrl()->path);
+			$form->addHidden('url')->setDefaultValue("http://".$context->getHttpRequest()->url->host.$context->getHttpRequest()->getUrl()->path);
 		}else{
 			$form = $this->createForm('form-submit', 'default', $context);
 			$form->addHidden('redirect')->setDefaultValue(false);
-			$form->addHidden('url')->setDefaultValue("http://".$_SERVER['HTTP_HOST'].$this->getHttpRequest()->getUrl()->path);
+			$form->addHidden('url')->setDefaultValue("http://".$this->getHttpRequest()->url->host.$this->getHttpRequest()->getUrl()->path);
 		}
 		
 
@@ -92,7 +92,7 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 			if($this->getHttpRequest()->url->host !== 'localhost') $mail->setFrom($this->settings->get('Info email', 'basic')->getValue());
 			else $mail->setFrom('no-reply@test.cz');
 
-			$mail->setSubject('Pozvánka na pivofest 2014');
+			$mail->setSubject($this->settings->get('Email subject', 'inviteModule', 'text')->getValue());
 			$mail->setHtmlBody($template);
 			$mail->send();
 
