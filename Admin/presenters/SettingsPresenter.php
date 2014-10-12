@@ -25,6 +25,8 @@
 	public function createComponentSettingsForm() {
 
 	    $settings = array();
+	    
+	    $settings[] = $this->settings->get('Email subject', 'inviteModule', 'text');
 
 	    return $this->createSettingsForm($settings);
 	}
