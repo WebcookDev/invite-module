@@ -94,7 +94,7 @@ class InvitePresenter extends \FrontendModule\BasePresenter{
 
 			$mail->setSubject('Pozvánka na pivofest 2014');
 			$mail->setHtmlBody($template);
-			//$mail->send();
+			$mail->send();
 
 			$this->flashMessage('Data has been sent.', 'success');
 
